@@ -1,7 +1,9 @@
 import os
 
+import tg_bot
 from fast_bitrix24 import Bitrix
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
@@ -31,7 +33,9 @@ def get_deal(funnel_stage_id):
                 ],
             })
     except Exception as e:
-        print(e)
+        tg_bot.telegram_send_messages(f'ERROR Kaspi_Examination_Order:'
+                                       f' Ошибка в получении сделок: {e}')
+        raise
 
 
 def movement_deals_canceled(canceled):
@@ -52,7 +56,9 @@ def movement_deals_canceled(canceled):
                                              })
 
         except Exception as e:
-            print(e)
+            tg_bot.telegram_send_messages(f'ERROR Kaspi_Examination_Order:'
+                                           f' Ошибка в переносе сделок ОТМЕНЕННЫХ: {e}')
+            raise
 
 
 def movement_deals_completed(completed):
@@ -74,4 +80,6 @@ def movement_deals_completed(completed):
                                              })
 
         except Exception as e:
-            print(e)
+            tg_bot.telegram_send_messages(f'ERROR Kaspi_Examination_Order:'
+                                           f' Ошибка в переносе сделок УСПЕШНЫХ: {e}')
+            raise

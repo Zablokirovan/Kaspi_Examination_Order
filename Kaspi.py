@@ -1,5 +1,8 @@
 import os
+import time
+
 import requests
+import tg_bot
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -19,32 +22,30 @@ def kaspi_info_for_order(deals):
     canceled_list_deal = []
     completed_list_deal = []
 
-    # It is needed for more economical access to Kaspi servers.
-    Session = requests.session()
+    session = requests.Session()
 
-    Session.headers.update({
+    session.headers.update({
         "X-Auth-Token": KASPI_TOKEN,
         "Accept": "application/vnd.api+json;charset=UTF-8",
         "User-Agent": "KaspiOrderSync/1.0"
     })
 
+    request_counter = 0
+
     for deal in deals:
 
         order_code = deal.get("UF_CRM_IM_ORDER_NUMBER")
-
         if not order_code:
             continue
 
-        # The order ID is specified to obtain information.
-        parms = {
+        params = {
             "filter[orders][code]": order_code
         }
 
         try:
-
-            response = Session.get(
+            response = session.get(
                 URL,
-                params=parms,
+                params=params,
                 timeout=(5, 30)
             )
 
@@ -57,14 +58,26 @@ def kaspi_info_for_order(deals):
 
             status = data["data"][0]["attributes"]["state"]
 
-            # Cancelled order
             if status == "CANCELLED":
                 canceled_list_deal.append(deal["ID"])
-            # Completed order
+
             elif status == "COMPLETED":
                 completed_list_deal.append(deal["ID"])
 
-        except requests.exceptions.RequestException as e:
-            print(f"Kaspi error for deal {deal.get('ID')}: {e}")
+            # Увеличиваем счётчик ТОЛЬКО если запрос реально был
+            request_counter += 1
 
+            # Каждые 50 запросов — пауза 10 секунд
+            if request_counter % 50 == 0:
+                time.sleep(10)
+
+        except requests.exceptions.RequestException as e:
+            tg_bot.telegram_send_messages(
+                f'ERROR Kaspi_Examination_Order: '
+                f'KASPI ОШИБКА: {e} '
+                f'Данные для проверки: {order_code}'
+            )
+            raise
+
+    session.close()
     return canceled_list_deal, completed_list_deal
