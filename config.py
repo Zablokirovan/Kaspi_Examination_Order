@@ -7,3 +7,13 @@ FUNNEL_STAGE = {
     "kaspi_express": "C125:UC_E17ICW",#KASPI EXPRESS
     "kaspi_delivery": "C125:1",# Каспи доставка
 }
+
+
+STAGE_ORDER = [
+    "kaspi_delivery",
+    "address_confirm",
+    "selling_services",
+    "awaiting_delivery",
+    "wait_cancelled",
+    "kaspi_express",
+]
