@@ -31,3 +31,41 @@ def get_deal(funnel_stage_id):
             })
     except Exception as e:
         print(e)
+
+
+def movement_deals_canceled(canceled):
+    """
+
+    :param canceled:
+    :return:
+    """
+    print(canceled)
+    for deal_id in canceled:
+        try:
+            with (b_time_delay.slow(max_concurrent_requests=5)):
+                result = b_time_delay.get_all(
+                    'crm.deal.update',
+                    params={"ID":deal_id,
+                            "FIELDS": {"STAGE_ID":"C125:UC_KTFH3T"}})
+
+        except Exception as e:
+            print(e)
+
+
+def movement_deals_completed(completed):
+    """
+
+    :param completed:
+    :return:
+    """
+    print(completed)
+    for deal_id in completed:
+        try:
+            with (b_time_delay.slow(max_concurrent_requests=5)):
+                result = b_time_delay.get_all(
+                    'crm.deal.update',
+                    params={"ID": deal_id,
+                            "FIELDS": {"STAGE_ID": "C125:UC_Y17SVX"}})
+
+        except Exception as e:
+            print(e)

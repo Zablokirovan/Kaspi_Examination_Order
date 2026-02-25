@@ -36,11 +36,9 @@ def kaspi_info_for_order(deals):
                 params=parms,
                 timeout=(5, 30)
             )
-            print(response)
             response.raise_for_status()
 
             data = response.json()
-            print(data)
 
             if not data.get("data"):
                 continue
