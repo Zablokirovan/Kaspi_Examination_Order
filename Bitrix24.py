@@ -11,16 +11,17 @@ webhook = os.getenv('BITRIX_WEBHOOK')
 # requests to avoid exceeding Bitrix24 limits
 b_time_delay = Bitrix(webhook, respect_velocity_policy=True)
 
-#TODO НУЖНО НАПИСАТЬ ЛОГИКУ ОБРАБОТОК ОШИБОК В ТЕЛЕГРАМ
-#TODO ПОДПИСАТЬ КАЖДУЮ ФУНКЦИЮ
+# TODO НУЖНО НАПИСАТЬ ЛОГИКУ ОБРАБОТОК ОШИБОК В ТЕЛЕГРАМ
+
+
 def get_deal(funnel_stage_id):
     """
-
-    :return:
+    Getting deals from the funnel by stage filter
+    :return: deal list
     """
     try:
         with b_time_delay.slow(max_concurrent_requests=5):
-            return b_time_delay.get_all('crm.deal.list',params={
+            return b_time_delay.get_all('crm.deal.list', params={
                 'filter': {
                     "STAGE_ID": funnel_stage_id
                 },
@@ -35,18 +36,20 @@ def get_deal(funnel_stage_id):
 
 def movement_deals_canceled(canceled):
     """
-
-    :param canceled:
+    Transferring transactions to the cancelled orders stage
+    :param canceled: list id deals for closed
     :return:
     """
-    print(canceled)
     for deal_id in canceled:
+
         try:
+
             with (b_time_delay.slow(max_concurrent_requests=5)):
-                result = b_time_delay.get_all(
-                    'crm.deal.update',
-                    params={"ID":deal_id,
-                            "FIELDS": {"STAGE_ID":"C125:UC_KTFH3T"}})
+                b_time_delay.get_all('crm.deal.update',
+                                     params={"ID": deal_id,
+                                             "FIELDS": {
+                                                 "STAGE_ID": "C125:UC_KTFH3T"}
+                                             })
 
         except Exception as e:
             print(e)
@@ -54,18 +57,21 @@ def movement_deals_canceled(canceled):
 
 def movement_deals_completed(completed):
     """
+    Moving deals to the successful orders stage
 
-    :param completed:
+    :param completed: list id deals for closed
     :return:
     """
-    print(completed)
     for deal_id in completed:
+
         try:
+
             with (b_time_delay.slow(max_concurrent_requests=5)):
-                result = b_time_delay.get_all(
-                    'crm.deal.update',
-                    params={"ID": deal_id,
-                            "FIELDS": {"STAGE_ID": "C125:UC_Y17SVX"}})
+                b_time_delay.get_all('crm.deal.update',
+                                     params={"ID": deal_id,
+                                             "FIELDS": {
+                                                 "STAGE_ID": "C125:UC_Y17SVX"}
+                                             })
 
         except Exception as e:
             print(e)
