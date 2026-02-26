@@ -23,6 +23,7 @@ def main():
             try:
                 work_la_itl(stage_id)
 
+
             except Exception as e:
                 tg_bot.telegram_send_messages(f"ERROR in stage {stage_id}: {e}")
 
