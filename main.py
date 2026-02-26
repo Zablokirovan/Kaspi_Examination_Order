@@ -26,7 +26,7 @@ def main():
             except Exception as e:
                 tg_bot.telegram_send_messages(f"ERROR in stage {stage_id}: {e}")
 
-            # Пауза между полными циклами
+            # Пауза между полными стадиями
             time.sleep(SLEEP_BETWEEN_STAGES_SEC)
 
         time.sleep(SLEEP_BETWEEN_CYCLES_SEC)

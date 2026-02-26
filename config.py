@@ -16,4 +16,5 @@ STAGE_ORDER = [
     "awaiting_delivery",
     "wait_cancelled",
     "kaspi_express",
+    "new"
 ]

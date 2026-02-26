@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  kaspi-sync:
+    build: .
+    container_name: kaspi-sync
+    restart: unless-stopped
+
+    environment:
+      - SLEEP_BETWEEN_STAGES_SEC=5
+      - SLEEP_BETWEEN_CYCLES_SEC=1200
+    env_file:
+      - .env
