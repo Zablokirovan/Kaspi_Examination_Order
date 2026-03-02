@@ -17,6 +17,7 @@ def main():
     """
 
     while True:
+        tg_bot.telegram_send_messages(f"Цикл начался")
         for stage in config.STAGE_ORDER:
             stage_id = config.FUNNEL_STAGE[stage]
 

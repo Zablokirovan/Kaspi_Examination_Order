@@ -56,7 +56,7 @@ def kaspi_info_for_order(deals):
             if not data.get("data"):
                 continue
 
-            status = data["data"][0]["attributes"]["state"]
+            status = data["data"][0]["attributes"]["status"]
 
             if status == "CANCELLED":
                 canceled_list_deal.append(deal["ID"])
