@@ -7,8 +7,8 @@ import config
 import tg_bot
 
 
-SLEEP_BETWEEN_STAGES_SEC = int(os.getenv("SLEEP_BETWEEN_STAGES_SEC", "5"))
-SLEEP_BETWEEN_CYCLES_SEC = int(os.getenv("SLEEP_BETWEEN_CYCLES_SEC", str(20 * 60)))
+SLEEP_BETWEEN_STAGES_SEC = int(os.getenv("SLEEP_BETWEEN_STAGES_SEC"))
+SLEEP_BETWEEN_CYCLES_SEC = int(os.getenv("SLEEP_BETWEEN_CYCLES_SEC"))
 
 def main():
     """
