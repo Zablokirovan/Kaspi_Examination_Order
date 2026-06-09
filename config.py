@@ -5,7 +5,7 @@ FUNNEL_STAGE = {
     "wait_cancelled": "C125:EXECUTING",#Ждем Отмену
     "awaiting_delivery": "C125:FINAL_INVOICE",#Ожидает доставку
     "kaspi_express": "C125:UC_E17ICW",#KASPI EXPRESS
-    "kaspi_delivery": "C125:1",# Каспи доставка
+    "kaspi_delivery": "C125:1"# Каспи доставка
 }
 
 
